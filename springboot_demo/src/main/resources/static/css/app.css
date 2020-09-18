@@ -1,0 +1,14 @@
+	* {
+		list-style: none;
+	}
+	a{
+		text-decoration: none;
+	}
+	#app{
+		width:60%;
+		height: 600px;
+		margin: 0 auto;
+		position: relative;
+		font: 12px/150% Arial,Verdana,"\5b8b\4f53";
+		/* border: 1px solid red; */
+	}

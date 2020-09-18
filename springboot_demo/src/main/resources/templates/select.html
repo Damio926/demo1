@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主页面</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/menu.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/head.css"/>
+    <script src="/static/js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <div id="menu">      <!-- 菜单栏 -->
+        <div id="user">
+            <div id="u_photo">
+                <img src="/static/img/photo.jpg" style="width: 100%;height: 100%; border-radius: 50%;">
+            </div>
+            <span class="span_user">夜使向黎明</span>
+        </div>
+        <div id="menu_ul">
+            <div class="ul_style" @click="cur=0" :class="{ul_hover:cur==0}" >
+                <a><span >课件管理</span></a>
+            </div>
+            <div class="ul_style" @click="cur=1" :class="{ul_hover:cur==1}">
+                <a><span>学分管理</span></a>
+            </div>
+            <div class="ul_style" @click="cur=2" :class="{ul_hover:cur==2}">
+                <a><span>证书管理</span></a>
+            </div>
+            <div class="ul_style" @click="cur=3" :class="{ul_hover:cur==3}">
+                <a><span>用户管理</span></a>
+            </div>
+            <div class="ul_style" @click="cur=4" :class="{ul_hover:cur==4}">
+                <a><span>系统设置</span></a>
+            </div>
+            <div class="ul_style" @click="cur=5" :class="{ul_hover:cur==5}">
+                <a><span>作业与考试</span></a>
+            </div>
+        </div>
+    </div>
+    <div id="head">
+        <div id="head_top">
+            <span class="span_teste">在线教育平台</span>
+            <div id="photo">
+                <img src="/static/img/photo.jpg" style="width: 100%;height: 100%; border-radius: 50%;">
+            </div>
+            <span class="span_testr">退出</span>
+        </div>
+    </div>
+    <div id="content" v-show="cur==0">
+        <div id="con_head">
+            <ul>
+                <li class="current" @click="te=0" ><span>基本信息</span></li>
+                <li @click="te=1" ><span>添加员工</span></li>
+                <li @click="te=2" ><span>权限管理</span></li>
+                <li @click="te=3" ><span>操作记录</span></li>
+                <li @click="te=4" ><span>密码管理</span></li>
+            </ul>
+        </div>
+        <div id="con_body" v-show="te==0">
+            <table border="1">
+                <tr>
+                    <td>编号</td>
+                    <td>姓名</td>
+                    <td>性别</td>
+                    <td>身份证号码</td>
+                    <td>专业</td>
+                    <td>学历</td>
+                    <td>出生日期</td>
+                    <td>操作</td>
+                </tr>
+                <tr th:each="o,student:${list}">
+                    <td th:text="${o.getId()}"></td>
+                    <td th:text="${o.getNames()}"></td>
+                    <td th:switch="${o.getSex()}">
+                        <span th:case="1">男</span>
+                        <span th:case="2">女</span>
+                        <span th:case="*">未知</span>
+                    </td>
+                    <td th:text="${o.getIdCard()}"></td>
+                    <td th:text="${o.getSubject()}">}</td>
+                    <td th:switch="${o.getEdu()}">
+                        <span th:case="1">中专</span>
+                        <span th:case="2">大专</span>
+                        <span th:case="3">本科</span>
+                        <span th:case="4">研究生</span>
+                        <span th:case="5">其他</span>
+                    </td>
+                    <td th:text="${#dates.format(o.birthday,'yyyy-MM-dd')}">}</td>
+                    <td>
+                        <a th:href="@{/stu/selectId(id=${o.getId()})}" >修改</a>
+                    </td>
+                    <td>
+                    <a th:href="@{/stu/delete(id=${o.getId()})}" >删除</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="con_bodye" v-show="te==1">
+            <form id="addUser" action="/stu/insert" method="post">
+                <table>
+                    <tr>
+<!--                                                  <input type="hidden" name="id" id="id">-->
+                        <td>姓名：<input type="text" name="names" id="names" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td>
+<!--                            <input type="text" name="sex" id="sex" required="required">-->
+                            性别：<label><input type="radio" name="sex" value="1" required="required">&nbsp;男</label>
+                            <label><input type="radio" name="sex" value="2" required="required">&nbsp;女</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>身份证：<input type="text" name="idCard" id="idCard" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td>专业：<input type="text" name="subject" id="subject" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td>学历：
+<!--                            <input type="text" name="edu" id="edu" required="required">-->
+                            <select name="edu">
+                                <option disabled="disabled">--请选择学历--</option>
+                                <option value="1">中专</option>
+                                <option value="2">大专</option>
+                                <option value="3">本科</option>
+                                <option value="4">研究生</option>
+                                <option value="5">其他</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>专业：<input type="date" name="birthday"  required="required"></td>
+                    </tr>
+                    <tr>
+                        <td><button type="submit">添加员工</button></td>
+<!--                          <td><a href="javascript:;" id="save" onclick="checkUser();return false;">保存</a></td>-->
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="con_bodyr" v-show="te==2">
+            999999999999999996
+        </div>
+        <div id="con_bodys" v-show="te==3">
+            888888888888666666
+        </div>
+        <div id="con_bodyd" v-show="te==4">
+            4888888886666666666
+        </div>
+        <div id="con_bodyf" v-show="te==5">
+            88888888888888888888
+        </div>
+    </div>
+    <div id="contente" v-show="cur==1">
+        999
+    </div>
+    <div id="contentr" v-show="cur==2">
+        888
+    </div>
+    <div id="contents" v-show="cur==3">
+        777
+    </div>
+    <div id="contentd" v-show="cur==4">
+        666
+    </div>
+    <div id="contentf" v-show="cur==5">
+        555
+    </div>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el:'#app',
+        data:{
+            cur:false,
+            te:false
+        }
+    })
+</script>
+<script type="text/javascript">
+    $(function(){
+        $("#con_head li").click(function(){
+            $(this).addClass("current").siblings("li").removeClass("current");
+        });
+    });
+</script>
+</body>
+</html>

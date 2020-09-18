@@ -1,0 +1,49 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  encoding: utf-8
+  #配置静态资源的根目录
+spring:
+  thymeleaf:
+    #缓冲的配置
+    cache: false
+    check-template: true
+    check-template-location: true
+    #开启MVC thymeleof 视图解析
+    enabled: true
+    encoding: utf-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+  resources:
+    static-locations: classpath:/
+  devtools:
+    restart:
+      enabled: true #设置开启热部署
+  freemarker:
+    cache: false
+  #配置数据源
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3307/system?useUnicode=true&amp;characterEncoding=utf-8
+#    url: jdbc:mysql://localhost:3307/test?useUnicode=true&amp;characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+#配置Mybatis-plus
+mybatis-plus:
+  #  mapper-locations: classpath/*.xml
+  type-aliases-package: com.lazy.springboot.demo.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  config: classpath:log4j2.xml
+#pagehelper分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: countSql
+
+

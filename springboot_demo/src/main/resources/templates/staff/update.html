@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改员工</title>
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<form id="updateStaff" action="/staff/update" method="post">
+    <table>
+        <tr>
+             <input type="hidden" th:value="${staff.getId()}" name="id" id="id">
+            <td>员工姓名：<input type="text" th:value="${staff.getName()}" name="name" id="name" required="required"></td>
+        </tr>
+        <tr>
+            <td>
+                科目代码：<input type="text" th:value="${staff.getSubject()}" name="subject" id="subject" required="required"></td>
+            </td>
+        </tr>
+        <tr>
+            <td>校区代号：<input type="text" th:value="${staff.getPart()}" name="part" id="part" required="required"></td>
+        </tr>
+
+        <tr>
+            <td>权限级别：
+                <!--                            <input type="text" name="edu" id="edu" required="required">-->
+                <select name="level">
+                    <option disabled="disabled">--请选择身份--</option>
+                    <option value="1">普通员工</option>
+                    <option value="2">高级管理员</option>
+
+                </select>
+            </td>
+
+        </tr>
+        <tr>
+            <td><button type="submit">确认修改</button></td>
+            <!-- <td><a href="javascript:;" id="save" onclick="checkUser();return false;">保存</a></td>-->
+        </tr>
+    </table>
+</form>
+</body>
+<script th:inline="javascript">
+    var level=[[${staff.level}]];
+    $('select[name="level"]').val(level);
+</script>
+</html>

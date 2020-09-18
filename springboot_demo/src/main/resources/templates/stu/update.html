@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<form id="addUser" action="/stu/update" method="post">
+    <table>
+        <tr>
+                <input type="hidden" th:value="${stu.getId()}" name="id" id="id">
+            <td>姓名：<input type="text" th:value="${stu.getNames()}" name="names" id="names" required="required" ></td>
+        </tr>
+        <tr th:switch="${stu.sex}">
+            <td th:case="1">
+                <!-- <input type="text" name="sex" id="sex" required="required">-->
+                性别：<label><input type="radio"   name="sex" value="1" required="required" checked>&nbsp;男</label>
+                <label><input type="radio"  name="sex" value="2" required="required" >&nbsp;女</label>
+            </td>
+            <td th:case="2">
+                <!-- <input type="text" name="sex" id="sex" required="required">-->
+                性别：<label><input type="radio"   name="sex" value="1" required="required" >&nbsp;男</label>
+                <label><input type="radio"  name="sex" value="2" required="required" checked>&nbsp;女</label>
+            </td>
+            <td th:case="*">
+                <!-- <input type="text" name="sex" id="sex" required="required">-->
+                <script>
+                    alert('未知的性别状态!');
+                </script>
+                性别：<label><input type="radio"   name="sex" value="1" required="required">&nbsp;男</label>
+                <label><input type="radio"  name="sex" value="2" required="required" >&nbsp;女</label>
+            </td>
+        </tr>
+        <tr>
+            <td>身份证：<input type="text" th:value="${stu.getIdCard()}" name="idCard" id="idCard" required="required"></td>
+        </tr>
+        <tr>
+            <td>专业：<input type="text" th:value="${stu.getSubject()}" name="subject" id="subject" required="required"></td>
+        </tr>
+        <tr>
+            <td>学历：
+                <!--                            <input type="text" name="edu" id="edu" required="required">-->
+                <select name="edu" >
+                    <option disabled="disabled">--请选择学历--</option>
+                    <option value="1">中专</option>
+                    <option value="2">大专</option>
+                    <option value="3">本科</option>
+                    <option value="4">研究生</option>
+                    <option value="5">其他</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><button type="submit">添加员工</button></td>
+            <!--                          <td><a href="javascript:;" id="save" onclick="checkUser();return false;">保存</a></td>-->
+        </tr>
+    </table>
+</form>
+<script th:inline="javascript">
+    var edu=[[${stu.edu}]];
+    $('select[name="edu"]').val(edu);
+</script>
+</body>
+</html>
